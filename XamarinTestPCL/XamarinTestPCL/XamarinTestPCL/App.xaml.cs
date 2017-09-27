@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
-using Xamarin.Forms;
-
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XamarinTestPCL
 {
     public partial class App : Application
@@ -12,8 +9,7 @@ namespace XamarinTestPCL
         public App()
         {
             InitializeComponent();
-
-            MainPage = new XamarinTestPCL.MainPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
