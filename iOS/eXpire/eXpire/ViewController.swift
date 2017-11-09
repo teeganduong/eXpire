@@ -10,6 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var fooditemTextField: UITextField!
+    @IBOutlet weak var foodtypeTextField: UITextField!
+    @IBOutlet weak var foodquantityTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -20,6 +24,9 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func SaveFood(_ sender: UIButton) {
+        
+    }
+    
 }
 

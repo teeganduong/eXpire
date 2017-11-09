@@ -60,6 +60,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WaL-Wd-NqY">
                                         <rect key="frame" x="0.0" y="199.5" width="34" height="30"/>
                                         <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="SaveFood:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u88-YW-5bv"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -77,6 +80,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="fooditemTextField" destination="qMd-VF-a6y" id="h6t-4a-DLi"/>
+                        <outlet property="foodquantityTextField" destination="vSr-nU-5Cg" id="Ph5-bA-WeU"/>
+                        <outlet property="foodtypeTextField" destination="FlH-9K-SFG" id="d0O-tP-eut"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
