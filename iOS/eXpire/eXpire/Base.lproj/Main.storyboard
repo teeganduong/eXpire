@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="6uj-yU-MUT">
-                                <rect key="frame" x="16" y="40" width="343" height="229.5"/>
+                                <rect key="frame" x="16" y="40" width="343" height="580.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Food" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8uy-Qu-Sxs">
                                         <rect key="frame" x="0.0" y="0.0" width="39" height="20.5"/>
@@ -64,10 +65,17 @@
                                             <action selector="SaveFood:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u88-YW-5bv"/>
                                         </connections>
                                     </button>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="320" image="defaultPhoto" translatesAutoresizingMaskIntoConstraints="NO" id="oWQ-kL-NPl">
+                                        <rect key="frame" x="0.0" y="237.5" width="343" height="343"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="oWQ-kL-NPl" secondAttribute="height" multiplier="1:1" id="ZZA-Hr-eht"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="qMd-VF-a6y" secondAttribute="trailing" id="VyH-Ht-fG6"/>
                                     <constraint firstAttribute="trailing" secondItem="vSr-nU-5Cg" secondAttribute="trailing" id="cOA-5O-GGk"/>
+                                    <constraint firstAttribute="trailing" secondItem="oWQ-kL-NPl" secondAttribute="trailing" id="oLf-Jh-DLP"/>
                                     <constraint firstAttribute="trailing" secondItem="FlH-9K-SFG" secondAttribute="trailing" id="v2Y-yo-4uq"/>
                                 </constraints>
                             </stackView>
@@ -91,4 +99,7 @@
             <point key="canvasLocation" x="136.80000000000001" y="101.19940029985008"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="defaultPhoto" width="1020" height="1122"/>
+    </resources>
 </document>
