@@ -18,7 +18,10 @@ class Food{
     //MARK: Initializer
     init?(name: String, type: String, quantity: Int){
         
-        if name.isEmpty || type.isEmpty || quantity < 0{
+        guard !name.isEmpty && !type.isEmpty else{
+            return nil
+        }
+        guard (quantity > 0) else{
             return nil
         }
         
