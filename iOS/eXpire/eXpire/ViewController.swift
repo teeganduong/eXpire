@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
     //MARK: Properties
     @IBOutlet weak var fooditemTextField: UITextField!
@@ -34,8 +34,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: Actions
     @IBAction func SaveFood(_ sender: UIButton) {
-        
     }
     
+    //MARK: Custom Functions
+    func ResignAllKeyBoard(){
+        fooditemTextField.resignFirstResponder()
+        foodtypeTextField.resignFirstResponder()
+        foodquantityTextField.resignFirstResponder()
+    }
 }
 
