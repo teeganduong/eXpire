@@ -1,131 +1,86 @@
 package expire.expire;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 /**
- * Created by mktay on 11/13/2017.
+ * Created by mktaylor on 11/13/2017.
  */
 
 public class FoodItem {
 
-    /**
-     * Item text
-     */
-//    @com.google.gson.annotations.SerializedName("text")
+    //@SerializedName("description")
     private String mDescription;
+    public String getDescription() {
+        return mDescription;
+    }
+    public final void setDescription(String description) {
+        mDescription = description;
+    }
 
-    /**
-     * Item Id
-     */
     //@com.google.gson.annotations.SerializedName("id")
     private String mId;
+    public String getId() {
+        return mId;
+    }
+    public final void setId(String id) {
+        mId = id;
+    }
 
-    /**
-     * Indicates if the item is completed
-     */
-//    @com.google.gson.annotations.SerializedName("complete")
-    private boolean mComplete;
-
-    /**
-     * Indicates category of the food (enum value?)
-     **/
     private enum Category
     {
         Dairy, Meat, Vegetable, Fruit
     }
     private Category mCategory;
+    public Category getCategory() {
+        return mCategory;
+    }
+    public final void setDescription(Category category) {
+        mCategory = category;
+    }
 
-    /*
-    * Indicates USDACode
-    **/
     private int mUSDACode;
+    public int getUSDACode() {
+        return mUSDACode;
+    }
+    public final void setId(int USDACode) {
+        mUSDACode = USDACode;
+    }
 
-    /*
-    * Indicates the number of days that passed before the food expired
-    **/
     private int mDaysToExpire;
+    public int getDaysToExpire() {
+        return mDaysToExpire;
+    }
+    public final void setDaysToExpire(int DaysToExpire) {
+        mDaysToExpire = DaysToExpire;
+    }
 
-    /*
-    * Indicates bought date
-    **/
     private Date mBoughtDate;
+    public Date getBoughtDate() {
+        return mBoughtDate;
+    }
+    public final void setBoughtDate(Date BoughtDate) {
+        mBoughtDate = BoughtDate;
+    }
 
-    /*
-    * Indicates Spoonacular ID
-    **/
     private int mSpoonacularId;
+    public int getSpoonacularId(){ return mSpoonacularId; }
+    public final void setmSpoonacularId(int SpoonacularId) { mSpoonacularId = SpoonacularId; }
 
-    /**
-     * FoodItem constructor
-     */
+
     public FoodItem() {
 
     }
 
-    @Override
-    public String toString() {
-        return getText();
-    }
-
-    /**
-     * Initializes a new ToDoItem
-     *
-     * @param text
-     *            The item text
-     * @param id
-     *            The item id
-     */
-    public FoodItem(String text, String id) {
-        this.setText(text);
+    public FoodItem(String description, String id) {
+        this.setDescription(description);
         this.setId(id);
     }
 
-    /**
-     * Returns the item text
-     */
-    public String getText() {
-        return mDescription;
-    }
 
-    /**
-     * Sets the item text
-     *
-     * @param text
-     *            text to set
-     */
-    public final void setText(String text) {
-        mDescription = text;
-    }
-
-    /**
-     * Returns the item id
-     */
-    public String getId() {
-        return mId;
-    }
-
-    /**
-     * Sets the item id
-     *
-     * @param id
-     *            id to set
-     */
-    public final void setId(String id) {
-        mId = id;
-    }
-
-    /**
-     * Indicates if the item is marked as completed
-     */
-    public boolean isComplete() {
-        return mComplete;
-    }
-
-    /**
-     * Marks the item as completed or incompleted
-     */
-    public void setComplete(boolean complete) {
-        mComplete = complete;
+    @Override
+    public String toString() {
+        return getDescription();
     }
 
     @Override

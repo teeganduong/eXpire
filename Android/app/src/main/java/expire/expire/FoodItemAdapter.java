@@ -50,7 +50,7 @@ public class FoodItemAdapter extends ArrayAdapter<FoodItem> {
 
         row.setTag(currentItem);
         final CheckBox checkBox = (CheckBox) row.findViewById(R.id.all);
-        checkBox.setText(currentItem.getText());
+        checkBox.setText(currentItem.getDescription());
         checkBox.setChecked(false);
         checkBox.setEnabled(true);
 

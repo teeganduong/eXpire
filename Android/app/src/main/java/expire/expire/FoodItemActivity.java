@@ -19,6 +19,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+
 /*import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -47,12 +50,12 @@ public class FoodItemActivity extends Activity {
     /**
      * Mobile Service Client reference
      */
-    //private MobileServiceClient mClient;
+    private MobileServiceClient mClient;
 
     /**
      * Mobile Service Table used to access data
      */
-    //private MobileServiceTable<FoodItem> mFoodItemTable;
+    private MobileServiceTable<FoodItem> mFoodItemTable;
 
     //Offline Sync
     /**
@@ -68,7 +71,7 @@ public class FoodItemActivity extends Activity {
     /**
      * EditText containing the "New To Do" text
      */
-    private EditText mTextNewToDo;
+    private EditText mTextNewFoodItem;
 
     /**
      * Progress spinner to use for table operations
@@ -78,9 +81,17 @@ public class FoodItemActivity extends Activity {
     /**
      * Initializes the activity
      */
-    //@Override
-    //public void onCreate(Bundle savedInstanceState) {
-    //    super.onCreate(savedInstanceState);
-    //    setContentView(R.layout.activity_main);
-    //}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void getItemFromId(int id) throws ExecutionException, InterruptedException {
+        List<FoodItem> items = mFoodItemTable
+                .where()
+                .field("id").eq(id)
+                .execute()
+                .get();
+    }
 }
