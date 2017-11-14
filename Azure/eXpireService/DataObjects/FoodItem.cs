@@ -1,8 +1,9 @@
 ﻿using Microsoft.Azure.Mobile.Server;
+using System;
 
 namespace eXpireService.DataObjects
 {
-    public class FoodItem : EntityData
+    public class FoodItem //: EntityData
     {
         public int FoodItemID { get; set; }
 
