@@ -36,8 +36,19 @@ class FoodInventoryViewController: UIViewController, UITextFieldDelegate, UINavi
         textField.resignFirstResponder()
         return true
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // Disable the save button while editing
+        saveButton.isEnabled = false
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateSaveButtonState()
+        navigationItem.title = fooditemTextField.text
+    }
     
     //MARK: Navigation
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -53,7 +64,14 @@ class FoodInventoryViewController: UIViewController, UITextFieldDelegate, UINavi
         food = Food(name: name, type: type, quantity: quantity!)
     }
     
-    //MARK: Custom Functions
+    //MARK: Private Methods
+    private func updateSaveButtonState(){
+        // Update the save button if any text field is empty.
+        let text = fooditemTextField.text ?? ""
+        saveButton.isEnabled = !text.isEmpty
+    }
+    
+    //MARK: Custom Methods
     func ResignAllKeyBoard(){
         fooditemTextField.resignFirstResponder()
         foodtypeTextField.resignFirstResponder()

@@ -121,7 +121,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Item" id="6VN-IP-RGI">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="EOG-l8-3uw"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="EOG-l8-3uw">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="SPy-wG-5bG"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="caS-gv-laf">
                             <connections>
                                 <segue destination="yj9-a6-bIp" kind="unwind" unwindAction="unwindToFoodItemListWithSender:" id="94W-4T-CJl"/>
