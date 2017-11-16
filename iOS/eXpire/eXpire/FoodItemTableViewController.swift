@@ -13,6 +13,18 @@ class FoodItemTableViewController: UITableViewController {
     //MARK: Properties
     var fooditems = [Food]()
     
+    //MARK: Actions
+    @IBAction func unwindToFoodItemList(sender: UIStoryboardSegue){
+        if let sourceViewController = sender.source as? FoodInventoryViewController, let food = sourceViewController.food {
+        
+        // Add a new Food Item.
+        let newIndexPath = IndexPath(row: fooditems.count,section: 0)
+        
+        fooditems.append(food)
+        tableView.insertRows(at: [newIndexPath], with: .automatic)
+        }
+    }
+    
     //MARK: Private Methods
     private func LoadFoodInventory(){
         guard let food1 = Food(name: "Apple",type: "Fruit",quantity: 4)
