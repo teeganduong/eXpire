@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FoodInventoryViewController.swift
 //  eXpire
 //
 //  Created by Scott English on 11/7/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
+class FoodInventoryViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
     //MARK: Properties
     @IBOutlet weak var fooditemTextField: UITextField!
