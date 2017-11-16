@@ -16,6 +16,7 @@
 		6810BA0A1FB223BA00D98A8D /* eXpireUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6810BA091FB223BA00D98A8D /* eXpireUITests.swift */; };
 		681504351FBCF1F90029856F /* FoodItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 681504341FBCF1F90029856F /* FoodItemTableViewCell.swift */; };
 		6868E8E31FBA460400593CA1 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6868E8E21FBA460400593CA1 /* Food.swift */; };
+		68E2ED621FBE16540078CA4E /* FoodItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E2ED611FBE16540078CA4E /* FoodItemTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		6810BA0B1FB223BA00D98A8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		681504341FBCF1F90029856F /* FoodItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodItemTableViewCell.swift; sourceTree = "<group>"; };
 		6868E8E21FBA460400593CA1 /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
+		68E2ED611FBE16540078CA4E /* FoodItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodItemTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				6810B9EB1FB223BA00D98A8D /* ViewController.swift */,
 				6810B9ED1FB223BA00D98A8D /* Main.storyboard */,
 				681504341FBCF1F90029856F /* FoodItemTableViewCell.swift */,
+				68E2ED611FBE16540078CA4E /* FoodItemTableViewController.swift */,
 				6810B9F01FB223BA00D98A8D /* Assets.xcassets */,
 				6810B9F21FB223BA00D98A8D /* LaunchScreen.storyboard */,
 				6810B9F51FB223BA00D98A8D /* Info.plist */,
@@ -267,6 +270,7 @@
 			files = (
 				681504351FBCF1F90029856F /* FoodItemTableViewCell.swift in Sources */,
 				6810B9EC1FB223BA00D98A8D /* ViewController.swift in Sources */,
+				68E2ED621FBE16540078CA4E /* FoodItemTableViewController.swift in Sources */,
 				6810B9EA1FB223BA00D98A8D /* AppDelegate.swift in Sources */,
 				6868E8E31FBA460400593CA1 /* Food.swift in Sources */,
 			);
