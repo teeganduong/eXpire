@@ -5,7 +5,7 @@
     android:layout_gravity="center_vertical">
 
     <TextView
-        android:id="@+id/task_title"
+        android:id="@+id/item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -14,7 +14,7 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/task_delete"
+        android:id="@+id/item_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
