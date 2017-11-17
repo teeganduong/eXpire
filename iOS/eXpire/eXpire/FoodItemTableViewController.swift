@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import os.log
 
 class FoodItemTableViewController: UITableViewController {
 
@@ -15,13 +16,20 @@ class FoodItemTableViewController: UITableViewController {
     
     //MARK: Actions
     @IBAction func unwindToFoodItemList(sender: UIStoryboardSegue){
+        
         if let sourceViewController = sender.source as? FoodInventoryViewController, let food = sourceViewController.food {
-        
-        // Add a new Food Item.
-        let newIndexPath = IndexPath(row: fooditems.count,section: 0)
-        
-        fooditems.append(food)
-        tableView.insertRows(at: [newIndexPath], with: .automatic)
+            
+            if let selectedIndexPath = tableView.indexPathForSelectedRow{
+                fooditems[selectedIndexPath.row] = food
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            }
+            else{
+                // Add a new Food Item.
+                let newIndexPath = IndexPath(row: fooditems.count,section: 0)
+                
+                fooditems.append(food)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
         }
     }
     
@@ -114,14 +122,39 @@ class FoodItemTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+            
+        case "AddItem":
+            os_log("Adding a new meal.", log: OSLog.default, type: .debug)
+            
+        case "ShowDetail":
+            guard let foodDetailViewController = segue.destination as? FoodInventoryViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedFoodItemCell = sender as? FoodItemTableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedFoodItemCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedFoodItem = fooditems[indexPath.row]
+            foodDetailViewController.food = selectedFoodItem
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+        }
+        
     }
-    */
+ 
 
 }

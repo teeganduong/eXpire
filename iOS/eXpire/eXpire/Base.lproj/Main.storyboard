@@ -37,6 +37,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="foodnameLabel" destination="9T5-Tm-HfX" id="rUA-hM-q6N"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="ShowDetail" id="bvv-Kh-Vte"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -183,7 +184,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fw5-Uy-67u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="475.19999999999999" y="100.74962518740631"/>
+            <point key="canvasLocation" x="423" y="458"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="bvv-Kh-Vte"/>
+    </inferredMetricsTieBreakers>
 </document>

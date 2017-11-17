@@ -28,6 +28,15 @@ class FoodInventoryViewController: UIViewController, UITextFieldDelegate, UINavi
         fooditemTextField.delegate = self
         foodtypeTextField.delegate = self
         foodquantityTextField.delegate = self
+        
+        if let food = food{
+            navigationItem.title = food.name
+            fooditemTextField.text = food.name
+            foodtypeTextField.text = food.type
+            foodquantityTextField.text = String(food.quantity)
+        }
+        
+        updateSaveButtonState()
     }
     
     //MARK: UITextFieldDelegate
@@ -47,7 +56,20 @@ class FoodInventoryViewController: UIViewController, UITextFieldDelegate, UINavi
     
     //MARK: Navigation
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        // Depending on style of presentation (modal or push presentation), this view
+        // controller needs to be dismissed in two different ways.
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        
+        if isPresentingInAddMealMode{
+            dismiss(animated: true, completion: nil)
+        }
+        else if let owningNavigationController = navigationController{
+            owningNavigationController.popViewController(animated: true)
+        }
+        else{
+            fatalError("The FoodInventoryViewController is not inside a navigation controller.")
+        }
+        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
