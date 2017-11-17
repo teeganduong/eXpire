@@ -1,5 +1,5 @@
 //
-//  FoodItemTableViewController.swift
+//  InventoryTableViewController.swift
 //  eXpire
 //
 //  Created by Scott English on 11/16/17.
@@ -9,7 +9,7 @@
 import UIKit
 import os.log
 
-class FoodItemTableViewController: UITableViewController {
+class InventoryTableViewController: UITableViewController {
 
     //MARK: Properties
     var fooditems = [Food]()
@@ -17,7 +17,7 @@ class FoodItemTableViewController: UITableViewController {
     //MARK: Actions
     @IBAction func unwindToFoodItemList(sender: UIStoryboardSegue){
         
-        if let sourceViewController = sender.source as? FoodInventoryViewController, let food = sourceViewController.food {
+        if let sourceViewController = sender.source as? ItemViewController, let food = sourceViewController.food {
             
             if let selectedIndexPath = tableView.indexPathForSelectedRow{
                 fooditems[selectedIndexPath.row] = food
@@ -75,7 +75,7 @@ class FoodItemTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "FoodItemTableViewCell"
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? FoodItemTableViewCell else{
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? InventoryTableViewCell else{
             fatalError("The dequeued cell is not an instance of FoodItemTableViewCell.")
         }
 
@@ -120,7 +120,6 @@ class FoodItemTableViewController: UITableViewController {
 
     
     // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -131,11 +130,11 @@ class FoodItemTableViewController: UITableViewController {
             os_log("Adding a new meal.", log: OSLog.default, type: .debug)
             
         case "ShowDetail":
-            guard let foodDetailViewController = segue.destination as? FoodInventoryViewController else {
+            guard let foodDetailViewController = segue.destination as? ItemViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            guard let selectedFoodItemCell = sender as? FoodItemTableViewCell else {
+            guard let selectedFoodItemCell = sender as? InventoryTableViewCell else {
                 fatalError("Unexpected sender: \(sender)")
             }
             

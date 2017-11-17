@@ -1,5 +1,5 @@
 //
-//  FoodItemTableViewCell.swift
+//  InventoryTableViewCell.swift
 //  eXpire
 //
 //  Created by Scott English on 11/15/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FoodItemTableViewCell: UITableViewCell {
+class InventoryTableViewCell: UITableViewCell {
 
     //MARK: Properties
     @IBOutlet weak var foodnameLabel: UILabel!

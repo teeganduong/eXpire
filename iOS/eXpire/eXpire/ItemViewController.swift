@@ -1,5 +1,5 @@
 //
-//  FoodInventoryViewController.swift
+//  ItemViewController.swift
 //  eXpire
 //
 //  Created by Scott English on 11/7/17.
@@ -9,7 +9,7 @@
 import UIKit
 import os.log
 
-class FoodInventoryViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
+class ItemViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
     //MARK: Properties
     @IBOutlet weak var fooditemTextField: UITextField!
@@ -81,9 +81,9 @@ class FoodInventoryViewController: UIViewController, UITextFieldDelegate, UINavi
         
         let name = fooditemTextField.text ?? ""
         let type = foodtypeTextField.text ?? ""
-        let quantity = Int(foodquantityTextField.text!)
+        let quantity = Int(foodquantityTextField.text!) ?? 0
         
-        food = Food(name: name, type: type, quantity: quantity!)
+        food = Food(name: name, type: type, quantity: quantity)
     }
     
     //MARK: Private Methods
