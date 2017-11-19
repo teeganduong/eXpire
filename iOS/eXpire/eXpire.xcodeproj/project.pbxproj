@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D08E5101FC0D79E008DF241 /* Fridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D08E50F1FC0D79E008DF241 /* Fridge.swift */; };
 		6810B9EA1FB223BA00D98A8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6810B9E91FB223BA00D98A8D /* AppDelegate.swift */; };
 		6810B9EC1FB223BA00D98A8D /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6810B9EB1FB223BA00D98A8D /* ItemViewController.swift */; };
 		6810B9EF1FB223BA00D98A8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6810B9ED1FB223BA00D98A8D /* Main.storyboard */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D08E50F1FC0D79E008DF241 /* Fridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fridge.swift; sourceTree = "<group>"; };
 		6810B9E61FB223BA00D98A8D /* eXpire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eXpire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6810B9E91FB223BA00D98A8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6810B9EB1FB223BA00D98A8D /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				6810B9F01FB223BA00D98A8D /* Assets.xcassets */,
 				6810B9F21FB223BA00D98A8D /* LaunchScreen.storyboard */,
 				6810B9F51FB223BA00D98A8D /* Info.plist */,
+				4D08E50F1FC0D79E008DF241 /* Fridge.swift */,
 			);
 			path = eXpire;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D08E5101FC0D79E008DF241 /* Fridge.swift in Sources */,
 				681504351FBCF1F90029856F /* InventoryTableViewCell.swift in Sources */,
 				6810B9EC1FB223BA00D98A8D /* ItemViewController.swift in Sources */,
 				68E2ED621FBE16540078CA4E /* InventoryTableViewController.swift in Sources */,

@@ -13,6 +13,7 @@ class InventoryTableViewController: UITableViewController {
 
     //MARK: Properties
     var fooditems = [Food]()
+    var fridge = Fridge(dbFile: "eXpireDB.sqlite")
     
     //MARK: Actions
     @IBAction func unwindToFoodItemList(sender: UIStoryboardSegue){
@@ -29,6 +30,10 @@ class InventoryTableViewController: UITableViewController {
                 
                 fooditems.append(food)
                 tableView.insertRows(at: [newIndexPath], with: .automatic)
+                
+                // Add new food item to local db
+                let expirationDate : Date? = nil
+                fridge?.insert(name: food.name, type: food.type, quantity: food.quantity, expireDate: expirationDate!, expired: false)
             }
         }
     }
@@ -80,6 +85,8 @@ class InventoryTableViewController: UITableViewController {
         }
 
         // Configure the cell...
+        
+        //let foodItem = fridge.getitem(indexPath.row)
         let fooditem = fooditems[indexPath.row]
         
         cell.foodnameLabel.text = fooditem.name
