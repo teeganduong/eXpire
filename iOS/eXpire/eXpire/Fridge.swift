@@ -59,20 +59,20 @@ class Fridge{
     }
     
     // insert(n,t,q,ed,e) inserts the row (n,t,q,ed,e) into the Fridge
-    func insert(name: String, type: String, quantity: Int, expireDate: Date, expired: Bool){
+    func insert(name: NSString, type: NSString, quantity: Int, expireDate: Date, expired: Bool, timeCreated: Date){
         let sqlString = "INSERT INTO Fridge (Title, FoodType, Quantity, ExpireDate, Expired, TimeCreated)" + "VALUES (?, ?, ?, ?, ?, ?);"
         
         var insertStatement: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, sqlString, -1, &insertStatement, nil) == SQLITE_OK {
-            sqlite3_bind_text(insertStatement, 1, name, -1, nil)
-            sqlite3_bind_text(insertStatement, 2, type, -1, nil)
+            sqlite3_bind_text(insertStatement, 1, name.utf8String, -1, nil)
+            sqlite3_bind_text(insertStatement, 2, type.utf8String, -1, nil)
             sqlite3_bind_int(insertStatement, 3, Int32(quantity))
             
             let format = DateFormatter()
             format.dateFormat = "yyyy-MM-dd"
-            let dateString = format.string(from: expireDate)
-            sqlite3_bind_text(insertStatement, 4, dateString, -1, nil)
+            let dateString = format.string(from: expireDate) as NSString
+            sqlite3_bind_text(insertStatement, 4, dateString.utf8String, -1, nil)
             if expired{
                 sqlite3_bind_int(insertStatement, 5, 1)
             }else{
@@ -80,8 +80,8 @@ class Fridge{
             }
             let timeFormat = DateFormatter()
             timeFormat.dateFormat = "yyyy-MM-dd-HH-mm-ss"
-            let currentTime = timeFormat.string(from: Date())
-            sqlite3_bind_text(insertStatement,6,currentTime, -1, nil)
+            let currentTime = timeFormat.string(from: timeCreated) as NSString
+            sqlite3_bind_text(insertStatement,6,currentTime.utf8String, -1, nil)
             
             if sqlite3_step(insertStatement) == SQLITE_DONE{
                 print("Insert success.")
@@ -97,7 +97,7 @@ class Fridge{
     
     // getItem(n) returns the food object stored in the nth place in the Fridge where the Fridge is a list of the food items stored in the local db sorted by TimeCreated (desc)
     func getItem(index: Int) -> Food{
-        let sqlString = "SELECT * FROM Fridge GROUP BY TimeCreated DESC;"
+        let sqlString = "SELECT * FROM Fridge ORDER BY TimeCreated ASC;"
         
         var selectStatement: OpaquePointer? = nil
         var foodList = [Food]()
@@ -105,11 +105,22 @@ class Fridge{
         if sqlite3_prepare_v2(db, sqlString, -1, &selectStatement, nil) == SQLITE_OK {
             
             while (sqlite3_step(selectStatement) == SQLITE_ROW){
-                let name: String = String(describing: sqlite3_column_text(selectStatement, 1))
-                let type: String = String(describing: sqlite3_column_text(selectStatement,2))
-                let quantity: Int = Int(sqlite3_column_int(selectStatement,3))
-                let food: Food = Food(name: name, type: type, quantity: quantity)!
-                foodList.append(food)
+                let col1Result = sqlite3_column_text(selectStatement, 1)
+                let name = String(cString: col1Result!)
+                let col2Result = sqlite3_column_text(selectStatement, 2)
+                let type = String(cString: col2Result!)
+                let quantity = Int(sqlite3_column_int(selectStatement,3))
+                
+                let col3Result = sqlite3_column_text(selectStatement, 6)
+                let dateString = String(cString: col3Result!)
+                
+                let format = DateFormatter()
+                format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
+                let date = format.date(from: dateString)
+                if (!name.isEmpty){
+                    let food: Food = Food(name: name, type: type, quantity: quantity, timeCreated: date!)!
+                    foodList.append(food)
+                }
             }
             
         }else{
@@ -122,7 +133,7 @@ class Fridge{
     
     // delete(n) deletes a row r from the Fridge where r is the nth member of the Fridge sorted by TimeCreated (desc)
     func delete(index: Int){
-        let sqlString = "SELECT Id FROM Fridge GROUP BY TimeCreated DESC;"
+        let sqlString = "SELECT Id FROM Fridge ORDER BY TimeCreated ASC;"
         
         var selectStatement: OpaquePointer? = nil
         var idList = [Int]()
@@ -158,7 +169,7 @@ class Fridge{
     
     // getAllItem() returns a list of every food object stored in the Fridge where the Fridge is a list of the food items stored in the local db sorted by TimeCreated (desc)
     func getAllItem() -> [Food]{
-        let sqlString = "SELECT * FROM Fridge GROUP BY TimeCreated DESC;"
+        let sqlString = "SELECT * FROM Fridge ORDER BY TimeCreated ASC;"
         
         var selectStatement: OpaquePointer? = nil
         var foodList = [Food]()
@@ -166,11 +177,22 @@ class Fridge{
         if sqlite3_prepare_v2(db, sqlString, -1, &selectStatement, nil) == SQLITE_OK {
             
             while (sqlite3_step(selectStatement) == SQLITE_ROW){
-                let name: String = String(describing: sqlite3_column_text(selectStatement, 1))
-                let type: String = String(describing: sqlite3_column_text(selectStatement,2))
-                let quantity: Int = Int(sqlite3_column_int(selectStatement,3))
-                let food: Food = Food(name: name, type: type, quantity: quantity)!
-                foodList.append(food)
+                let col1Result = sqlite3_column_text(selectStatement, 1)
+                let name = String(cString: col1Result!)
+                let col2Result = sqlite3_column_text(selectStatement, 2)
+                let type = String(cString: col2Result!)
+                let quantity = Int(sqlite3_column_int(selectStatement,3))
+                
+                let col3Result = sqlite3_column_text(selectStatement, 6)
+                let dateString = String(cString: col3Result!)
+                
+                let format = DateFormatter()
+                format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
+                let date = format.date(from: dateString)
+                if (!name.isEmpty){
+                    let food: Food = Food(name: name, type: type, quantity: quantity, timeCreated: date!)!
+                    foodList.append(food)
+                }
             }
             
         }else{
@@ -179,5 +201,41 @@ class Fridge{
         
         sqlite3_finalize(selectStatement)
         return foodList
+    }
+    
+    // Returns the number of items in the database.
+    func count() -> Int{
+        let list = getAllItem()
+        return list.count
+    }
+    
+    //Updates an existing item in the database.
+    func update(food: Food, selectedIndexPath: Int){
+        let oldFood = getItem(index: selectedIndexPath)
+        let name = food.name as NSString
+        let type = food.type as NSString
+        
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
+        let dateString = format.string(from: oldFood.timeCreated) as NSString
+        let sqlString = "UPDATE Fridge SET Title = ?, FoodType = ?, Quantity = ? WHERE TimeCreated = ?;"
+        
+        var updateStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(db, sqlString, -1, &updateStatement, nil) == SQLITE_OK {
+            sqlite3_bind_text(updateStatement, 1, name.utf8String, -1, nil)
+            sqlite3_bind_text(updateStatement, 2, type.utf8String, -1, nil)
+            sqlite3_bind_int(updateStatement, 3, Int32(food.quantity))
+            sqlite3_bind_text(updateStatement, 4, dateString.utf8String, -1, nil)
+            if sqlite3_step(updateStatement) == SQLITE_DONE{
+                print("Update success.")
+            }else{
+                print("Update fail.")
+            }
+        }else{
+            print("Update failed to be prepared.")
+        }
+        
+        sqlite3_finalize(updateStatement)
     }
 }

@@ -12,34 +12,37 @@ import os.log
 class InventoryTableViewController: UITableViewController {
 
     //MARK: Properties
-    var fooditems = [Food]()
+    //var fooditems = [Food]()
     var fridge = Fridge(dbFile: "eXpireDB.sqlite")
     
     //MARK: Actions
     @IBAction func unwindToFoodItemList(sender: UIStoryboardSegue){
         
         if let sourceViewController = sender.source as? ItemViewController, let food = sourceViewController.food {
-            
+            // Updating existing food item.
             if let selectedIndexPath = tableView.indexPathForSelectedRow{
-                fooditems[selectedIndexPath.row] = food
+                //fooditems[selectedIndexPath.row] = food // Replace with DB.
+                fridge?.update(food: food, selectedIndexPath: selectedIndexPath.row)
                 tableView.reloadRows(at: [selectedIndexPath], with: .none)
             }
             else{
                 // Add a new Food Item.
-                let newIndexPath = IndexPath(row: fooditems.count,section: 0)
+                let newIndexPath = IndexPath(row: fridge!.count(),section: 0)
                 
-                fooditems.append(food)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
+                //fooditems.append(food) // Replace with DB.
+                //tableView.insertRows(at: [newIndexPath], with: .automatic)
                 
                 // Add new food item to local db
-                let expirationDate : Date? = nil
-                fridge?.insert(name: food.name, type: food.type, quantity: food.quantity, expireDate: expirationDate!, expired: false)
+                let expirationDate : Date? = Date()
+                fridge?.insert(name: food.name as NSString, type: food.type as NSString, quantity: food.quantity, expireDate: expirationDate!, expired: false, timeCreated: food.timeCreated)
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
             }
         }
     }
     
-    //MARK: Private Methods
+    //MARK: Private Methods. (Code needs to be re-done with new SQLite DB connection)
     private func LoadFoodInventory(){
+        /*
         guard let food1 = Food(name: "Apple",type: "Fruit",quantity: 4)
             else{
                 fatalError("Unable to instantiate meal1")
@@ -52,14 +55,14 @@ class InventoryTableViewController: UITableViewController {
             else{
                 fatalError("Unable to instantiate meal3")
         }
-        
         fooditems += [food1,food2,food3]
-        
+         */
+
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Load the sample data
-        LoadFoodInventory()
+        //LoadFoodInventory()
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,7 +77,7 @@ class InventoryTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fooditems.count
+        return (fridge?.count())! //Replace with DB.
     }
 
     
@@ -86,10 +89,10 @@ class InventoryTableViewController: UITableViewController {
 
         // Configure the cell...
         
-        //let foodItem = fridge.getitem(indexPath.row)
-        let fooditem = fooditems[indexPath.row]
+        let foodItem = fridge?.getItem(index: indexPath.row)
+        //let fooditem = fooditems[indexPath.row] // Replace with new DB.
         
-        cell.foodnameLabel.text = fooditem.name
+        cell.foodnameLabel.text = foodItem?.name
         return cell
     }
     
@@ -103,7 +106,8 @@ class InventoryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            fooditems.remove(at: indexPath.row)
+            //fooditems.remove(at: indexPath.row) // Replace with new DB.
+            fridge?.delete(index: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -149,7 +153,8 @@ class InventoryTableViewController: UITableViewController {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-            let selectedFoodItem = fooditems[indexPath.row]
+            //let selectedFoodItem = fooditems[indexPath.row] // Replace with new DB.
+            let selectedFoodItem = fridge?.getItem(index: indexPath.row)
             foodDetailViewController.food = selectedFoodItem
             
         default:

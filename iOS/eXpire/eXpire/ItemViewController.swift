@@ -82,8 +82,10 @@ class ItemViewController: UIViewController, UITextFieldDelegate, UINavigationCon
         let name = fooditemTextField.text ?? ""
         let type = foodtypeTextField.text ?? ""
         let quantity = Int(foodquantityTextField.text!) ?? 0
+        let timeCreated = Date()
         
-        food = Food(name: name, type: type, quantity: quantity)
+        
+        food = Food(name: name, type: type, quantity: quantity,timeCreated: timeCreated)
     }
     
     //MARK: Private Methods
