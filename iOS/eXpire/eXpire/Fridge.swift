@@ -14,6 +14,7 @@ import SQLite3
 class Fridge{
     var db: OpaquePointer? = nil
     
+    
     //MARK: Initializer
     init?(dbFile: String){
         
@@ -63,7 +64,7 @@ class Fridge{
     }
     
     
-    //MARK: Custom Methods
+    //MARK: Database Methods
     // insert(n,t,q,ed,e) inserts the row (n,t,q,ed,e) into the Fridge db.
     func insert(name: NSString, type: NSString, quantity: Int, expireDate: Date, expired: Bool, timeCreated: Date){
         let sqlString = "INSERT INTO Fridge (Title, FoodType, Quantity, ExpireDate, Expired, TimeCreated)" + "VALUES (?, ?, ?, ?, ?, ?);"
@@ -77,10 +78,7 @@ class Fridge{
             sqlite3_bind_text(insertStatement, 2, type.utf8String, -1, nil)
             sqlite3_bind_int(insertStatement, 3, Int32(quantity))
             
-            // Format the expiration date from type Date to type NSString.
-            let format = DateFormatter()
-            format.dateFormat = "yyyy-MM-dd"
-            let dateString = format.string(from: expireDate) as NSString
+            let dateString = returnStringTimeStamp(date: expireDate)
             sqlite3_bind_text(insertStatement, 4, dateString.utf8String, -1, nil)
             if expired{
                 sqlite3_bind_int(insertStatement, 5, 1)
@@ -88,10 +86,7 @@ class Fridge{
                 sqlite3_bind_int(insertStatement, 5, 0)
             }
             
-            // Format the timestamp date from type Date to type NSString.
-            let timeFormat = DateFormatter()
-            timeFormat.dateFormat = "yyyy-MM-dd-HH-mm-ss"
-            let currentTime = timeFormat.string(from: timeCreated) as NSString
+            let currentTime = returnStringTimeStamp(date: timeCreated)
             sqlite3_bind_text(insertStatement,6,currentTime.utf8String, -1, nil)
             
             if sqlite3_step(insertStatement) == SQLITE_DONE{ // Find out if sqlite3 statment is done.
@@ -125,16 +120,12 @@ class Fridge{
                 let quantity = Int(sqlite3_column_int(selectStatement,3))
                 let col3Result = sqlite3_column_text(selectStatement, 6)
                 let dateString = String(cString: col3Result!)
-                
-                // Format the timestamp date from type String to type Date.
-                let format = DateFormatter()
-                format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
-                let date = format.date(from: dateString)
+                let date = returnDateTimeStamp(dateString: dateString)
                 
                 // If we found an item for this row, append it to our list.
                 // This list should represent our values in the fridge db just as they are listed in the InventoryTableViewController.
                 if (!name.isEmpty){
-                    let food: Food = Food(name: name, type: type, quantity: quantity, timeCreated: date!)!
+                    let food: Food = Food(name: name, type: type, quantity: quantity, timeCreated: date)!
                     foodList.append(food)
                 }
             }
@@ -198,16 +189,12 @@ class Fridge{
                 let quantity = Int(sqlite3_column_int(selectStatement,3))
                 let col3Result = sqlite3_column_text(selectStatement, 6)
                 let dateString = String(cString: col3Result!)
-                
-                // Format the timestamp from type String to type Date.
-                let format = DateFormatter()
-                format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
-                let date = format.date(from: dateString)
+                let date = returnDateTimeStamp(dateString: dateString)
                 
                 // If we found an item for this row, append it to our list.
                 // This list should represent our values in the fridge db just as they are listed in the InventoryTableViewController.
                 if (!name.isEmpty){
-                    let food: Food = Food(name: name, type: type, quantity: quantity, timeCreated: date!)!
+                    let food: Food = Food(name: name, type: type, quantity: quantity, timeCreated: date)!
                     foodList.append(food)
                 }
             }
@@ -230,11 +217,7 @@ class Fridge{
         let oldFood = getItem(index: selectedIndexPath)
         let name = food.name as NSString
         let type = food.type as NSString
-        
-        // Format timestamp of previous food item from type Date to type NSString.
-        let format = DateFormatter()
-        format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
-        let dateString = format.string(from: oldFood.timeCreated) as NSString
+        let dateString = returnStringTimeStamp(date: oldFood.timeCreated)
         let sqlString = "UPDATE Fridge SET Title = ?, FoodType = ?, Quantity = ? WHERE TimeCreated = ?;"
         var updateStatement: OpaquePointer? = nil
         
@@ -254,5 +237,21 @@ class Fridge{
         }
         
         sqlite3_finalize(updateStatement) // Finish sql command.
+    }
+    
+    
+    //MARK: Custom Methods
+    // Converts a String to type Date.
+    private func returnDateTimeStamp(dateString: String) -> Date{
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
+        return format.date(from: dateString)!
+    }
+    
+    // Converts a Date to type NSString.
+    private func returnStringTimeStamp(date: Date) -> NSString{
+        let timeFormat = DateFormatter()
+        timeFormat.dateFormat = "yyyy-MM-dd-HH-mm-ss"
+        return timeFormat.string(from: date) as NSString
     }
 }
