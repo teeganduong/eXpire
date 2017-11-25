@@ -5,6 +5,8 @@
 //  Created by Scott English on 11/13/17.
 //  Copyright © 2017 Scott English. All rights reserved.
 //
+//  Food Class
+//
 
 import UIKit
 
@@ -14,9 +16,11 @@ class Food{
     var name: String
     var type: String
     var quantity: Int
+    var timeCreated: Date
+    
     
     //MARK: Initializer
-    init?(name: String, type: String, quantity: Int){
+    init?(name: String, type: String, quantity: Int, timeCreated: Date){
         
         guard !name.isEmpty && !type.isEmpty else{
             return nil
@@ -28,7 +32,6 @@ class Food{
         self.name = name
         self.type = type
         self.quantity = quantity
-        
+        self.timeCreated = timeCreated
     }
-    
 }
