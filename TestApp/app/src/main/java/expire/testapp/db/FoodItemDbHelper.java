@@ -18,12 +18,12 @@ public class FoodItemDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + FoodItemContract.FoodItemEntry.TABLE + " ( " +
-                FoodItemContract.FoodItemEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                FoodItemContract.FoodItemEntry.COL_FOOD_TITLE + " TEXT NOT NULL, " +
-                FoodItemContract.FoodItemEntry.COL_FOOD_TYPE + " TEXT NOT NULL, " +
-                FoodItemContract.FoodItemEntry.COL_QUANTITY + " TEXT NOT NULL, " +
-                FoodItemContract.FoodItemEntry.COL_EXPIRE_DATE + " TEXT NOT NULL, " +
-                FoodItemContract.FoodItemEntry.COL_EXPIRED + " TEXT NOT NULL);";
+                FoodItemContract.FoodItemEntry._ID + " INTEGER PRIMARY KEY, " +
+                FoodItemContract.FoodItemEntry.COL_FOOD_TITLE + " TEXT, " +
+                FoodItemContract.FoodItemEntry.COL_FOOD_TYPE + " TEXT, " +
+                FoodItemContract.FoodItemEntry.COL_QUANTITY + " INT, " +
+                FoodItemContract.FoodItemEntry.COL_EXPIRE_DATE + " TEXT, " +
+                FoodItemContract.FoodItemEntry.COL_EXPIRED + " INT);";
 
         db.execSQL(createTable);
     }

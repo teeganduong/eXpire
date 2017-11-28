@@ -22,17 +22,16 @@ import expire.testapp.db.FoodItemDbHelper;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DialogInterface.OnCancelListener,DialogInterface.OnDismissListener {
     private static final String TAG = "MainActivity";
     private FoodItemDbHelper mHelper;
-    private ListView mFoodItemListView;
+    public ListView mFoodItemListView;
     private ArrayAdapter<String> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mHelper = new FoodItemDbHelper(this);
         mFoodItemListView = (ListView) findViewById(R.id.list_todo);
 
@@ -46,38 +45,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onDismiss(final DialogInterface dialog) {
+        updateUI();
+    }
+    @Override
+    public void onCancel(final DialogInterface dialog) {
+        updateUI();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_item:
                 final EditText itemEditText = new EditText(this);
                 final EditText itemTypeEditText = new EditText(this);
-                FragmentManager frmng = getFragmentManager();
-                DialogFragment dia = new AddItemDialogFragment();
-                dia.show(frmng, null);
-//                AlertDialog dialog = new AlertDialog.Builder(this)
-//                        .setTitle("Add A New Food  ")
-//                        .setMessage("Food:")
-//                        .setView(itemEditText)
-//                        .setMessage("Food Type:")
-//                        .setView(itemTypeEditText)
-//                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                String foodItem = String.valueOf(itemEditText.getText());
-//                                SQLiteDatabase db = mHelper.getWritableDatabase();
-//                                ContentValues values = new ContentValues();
-//                                values.put(FoodItemContract.FoodItemEntry.COL_FOOD_TITLE, foodItem);
-//                                db.insertWithOnConflict(FoodItemContract.FoodItemEntry.TABLE,
-//                                        null,
-//                                        values,
-//                                        SQLiteDatabase.CONFLICT_REPLACE);
-//                                db.close();
-//                                updateUI();
-//                            }
-//                        })
-//                        .setNegativeButton("Cancel", null)
-//                        .create();
-//                dialog.show();
+                FragmentManager frag = getFragmentManager();
+                DialogFragment dialog = new AddItemDialogFragment();
+                dialog.show(frag, null);
+
+
                 return true;
 
             default:
@@ -97,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         updateUI();
     }
 
-    private void updateUI() {
+    public void updateUI() {
         ArrayList<String> taskList = new ArrayList<>();
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
