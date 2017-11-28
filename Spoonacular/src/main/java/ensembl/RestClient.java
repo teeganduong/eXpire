@@ -20,7 +20,7 @@ public class RestClient {
 
     public static void main(String[] args) throws InterruptedException, UnirestException {
         String q = input();
-        String number = "10";
+        String number = inputdigit();
         if (args.length == 1) {
             q = args[0];
         } else if (args.length == 2) {
@@ -33,19 +33,23 @@ public class RestClient {
 
     public static String input(){
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("e");
+        System.out.println("enter a search query");
         String myLine = keyboard.nextLine();
-        System.out.println(myLine);
         return myLine;
     }
-
-
+    public static String inputdigit() {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("enter number of results");
+        String mynumb = keyboard.nextLine();
+        return mynumb;
+    }
     public void printVariants(String q, String number) throws UnirestException, InterruptedException {
         JSONArray variants = fetchJson(String.format("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/ingredients/autocomplete?number=%s&query=%s",number, q)).getArray();
+        System.out.println("Results");
         for (int i = 0; i < variants.length(); i++) {
             JSONObject variant = variants.getJSONObject(i);
             String srName = variant.getString("name");
-            String output = String.format("%s", srName);
+            String output = String.format("%d: %s",i+1, srName);
             System.out.println(output);
         }
 
