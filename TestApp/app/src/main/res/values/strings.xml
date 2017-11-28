@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Test App</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+</resources>
