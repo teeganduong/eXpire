@@ -3,6 +3,7 @@ package expire.testapp;
 import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.app.DialogFragment;
@@ -34,6 +36,16 @@ public class MainActivity extends AppCompatActivity implements DialogInterface.O
         setContentView(R.layout.activity_main);
         mHelper = new FoodItemDbHelper(this);
         mFoodItemListView = (ListView) findViewById(R.id.list_todo);
+
+        final ImageButton a=(ImageButton) findViewById(R.id.setting);
+
+        a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent aa= new Intent(MainActivity.this , Settings.class);
+                startActivity(aa);
+            }
+        });
 
         updateUI();
     }
