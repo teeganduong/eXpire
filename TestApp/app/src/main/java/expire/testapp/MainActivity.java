@@ -1,7 +1,9 @@
 package expire.testapp;
 
+import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,27 +14,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.app.DialogFragment;
 
-import expire.testapp.db.TaskContract;
-import expire.testapp.db.TaskDbHelper;
+import expire.testapp.db.FoodItemContract;
+import expire.testapp.db.FoodItemDbHelper;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DialogInterface.OnCancelListener,DialogInterface.OnDismissListener {
     private static final String TAG = "MainActivity";
-    private TaskDbHelper mHelper;
-    private ListView mTaskListView;
+    private FoodItemDbHelper mHelper;
+    public ListView mFoodItemListView;
     private ArrayAdapter<String> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mHelper = new FoodItemDbHelper(this);
+        mFoodItemListView = (ListView) findViewById(R.id.list_todo);
 
-        mHelper = new TaskDbHelper(this);
-        mTaskListView = (ListView) findViewById(R.id.list_todo);
+        final ImageButton a=(ImageButton) findViewById(R.id.setting);
+
+        a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent aa= new Intent(MainActivity.this , Settings.class);
+                startActivity(aa);
+            }
+        });
 
         updateUI();
     }
@@ -44,32 +57,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onDismiss(final DialogInterface dialog) {
+        updateUI();
+    }
+    @Override
+    public void onCancel(final DialogInterface dialog) {
+        updateUI();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add_task:
-                final EditText taskEditText = new EditText(this);
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("Add A New Food  ")
-                        .setMessage("Name")
-                        .setView(taskEditText)
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String task = String.valueOf(taskEditText.getText());
-                                SQLiteDatabase db = mHelper.getWritableDatabase();
-                                ContentValues values = new ContentValues();
-                                values.put(TaskContract.TaskEntry.COL_TASK_TITLE, task);
-                                db.insertWithOnConflict(TaskContract.TaskEntry.TABLE,
-                                        null,
-                                        values,
-                                        SQLiteDatabase.CONFLICT_REPLACE);
-                                db.close();
-                                updateUI();
-                            }
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .create();
-                dialog.show();
+            case R.id.action_add_item:
+                final EditText itemEditText = new EditText(this);
+                final EditText itemTypeEditText = new EditText(this);
+                FragmentManager frag = getFragmentManager();
+                DialogFragment dialog = new AddItemDialogFragment();
+                dialog.show(frag, null);
+
+
                 return true;
 
             default:
@@ -79,33 +85,36 @@ public class MainActivity extends AppCompatActivity {
 
     public void deleteTask(View view) {
         View parent = (View) view.getParent();
-        TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
+        TextView taskTextView = (TextView) parent.findViewById(R.id.item_title);
         String task = String.valueOf(taskTextView.getText());
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.delete(TaskContract.TaskEntry.TABLE,
-                TaskContract.TaskEntry.COL_TASK_TITLE + " = ?",
+        db.delete(FoodItemContract.FoodItemEntry.TABLE,
+                FoodItemContract.FoodItemEntry.COL_FOOD_TITLE + " = ?",
                 new String[]{task});
         db.close();
         updateUI();
     }
 
-    private void updateUI() {
+    public void updateUI() {
         ArrayList<String> taskList = new ArrayList<>();
         SQLiteDatabase db = mHelper.getReadableDatabase();
-        Cursor cursor = db.query(TaskContract.TaskEntry.TABLE,
-                new String[]{TaskContract.TaskEntry._ID, TaskContract.TaskEntry.COL_TASK_TITLE},
+
+        Cursor cursor = db.query(FoodItemContract.FoodItemEntry.TABLE,
+                new String[]{FoodItemContract.FoodItemEntry._ID, FoodItemContract.FoodItemEntry.COL_FOOD_TITLE,
+                        FoodItemContract.FoodItemEntry.COL_FOOD_TYPE, FoodItemContract.FoodItemEntry.COL_QUANTITY,
+                        FoodItemContract.FoodItemEntry.COL_EXPIRE_DATE, FoodItemContract.FoodItemEntry.COL_EXPIRED},
                 null, null, null, null, null);
         while (cursor.moveToNext()) {
-            int idx = cursor.getColumnIndex(TaskContract.TaskEntry.COL_TASK_TITLE);
+            int idx = cursor.getColumnIndex(FoodItemContract.FoodItemEntry.COL_FOOD_TITLE);
             taskList.add(cursor.getString(idx));
         }
 
         if (mAdapter == null) {
             mAdapter = new ArrayAdapter<>(this,
                     R.layout.item_todo,
-                    R.id.task_title,
+                    R.id.item_title,
                     taskList);
-            mTaskListView.setAdapter(mAdapter);
+            mFoodItemListView.setAdapter(mAdapter);
         } else {
             mAdapter.clear();
             mAdapter.addAll(taskList);
