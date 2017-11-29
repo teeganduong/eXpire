@@ -47,51 +47,30 @@ import static com.microsoft.windowsazure.mobileservices.table.query.QueryOperati
 
 public class FoodItemActivity extends Activity {
 
-    /**
-     * Mobile Service Client reference
-     */
     private MobileServiceClient mClient;
 
-    /**
-     * Mobile Service Table used to access data
-     */
     private MobileServiceTable<FoodItem> mFoodItemTable;
 
-    //Offline Sync
-    /**
-     * Mobile Service Table used to access and Sync data
-     */
-    //private MobileServiceSyncTable<FoodItem> mFoodItemTable;
+    //private FoodItemAdapter mAdapter;
 
-    /**
-     * Adapter to sync the items list with the view
-     */
-    private FoodItemAdapter mAdapter;
-
-    /**
-     * EditText containing the "New To Do" text
-     */
-    private EditText mTextNewFoodItem;
-
-    /**
-     * Progress spinner to use for table operations
-     */
-    private ProgressBar mProgressBar;
-
-    /**
-     * Initializes the activity
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    public void getItemFromId(int id) throws ExecutionException, InterruptedException {
+    public List<FoodItem> getItemFromId(int id) throws ExecutionException, InterruptedException {
         List<FoodItem> items = mFoodItemTable
                 .where()
                 .field("id").eq(id)
                 .execute()
+                .get();
+        return items;
+    }
+
+    public void saveFoodItem(FoodItem item) throws ExecutionException, InterruptedException {
+        mFoodItemTable
+                .insert(item)
                 .get();
     }
 }

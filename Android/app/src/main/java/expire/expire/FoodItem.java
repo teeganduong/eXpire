@@ -1,6 +1,6 @@
 package expire.expire;
 
-import com.google.gson.annotations.SerializedName;
+//import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 /**
@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class FoodItem {
 
-    //@SerializedName("description")
+    //@com.google.gson.annotations.SerializedName("description")
     private String mDescription;
     public String getDescription() {
         return mDescription;
@@ -31,6 +31,7 @@ public class FoodItem {
     {
         Dairy, Meat, Vegetable, Fruit
     }
+    //@com.google.gson.annotations.SerializedName("category")
     private Category mCategory;
     public Category getCategory() {
         return mCategory;
@@ -39,6 +40,7 @@ public class FoodItem {
         mCategory = category;
     }
 
+    //@com.google.gson.annotations.SerializedName("usdacode")
     private int mUSDACode;
     public int getUSDACode() {
         return mUSDACode;
@@ -47,6 +49,7 @@ public class FoodItem {
         mUSDACode = USDACode;
     }
 
+    //@com.google.gson.annotations.SerializedName("daystoexpire")
     private int mDaysToExpire;
     public int getDaysToExpire() {
         return mDaysToExpire;
@@ -55,6 +58,7 @@ public class FoodItem {
         mDaysToExpire = DaysToExpire;
     }
 
+    //@com.google.gson.annotations.SerializedName("boughtdate")
     private Date mBoughtDate;
     public Date getBoughtDate() {
         return mBoughtDate;
@@ -63,6 +67,7 @@ public class FoodItem {
         mBoughtDate = BoughtDate;
     }
 
+    //@com.google.gson.annotations.SerializedName("spoonacularid")
     private int mSpoonacularId;
     public int getSpoonacularId(){ return mSpoonacularId; }
     public final void setmSpoonacularId(int SpoonacularId) { mSpoonacularId = SpoonacularId; }
