@@ -49,6 +49,17 @@ class ItemViewController: UIViewController, UITextFieldDelegate, UINavigationCon
         textField.resignFirstResponder()
         return true
     }
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        updateSaveButtonState()
+        self.view.endEditing(true)
+    }
+    
     // Disable the save button while the user is editing one of the UITextFields.
     func textFieldDidBeginEditing(_ textField: UITextField) {
         saveButton.isEnabled = false
