@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">expire</string>
+    <string name="add_textbox_hint">Add a new food item</string>
+    <string name="add_button_text">Add</string>
+    <string name="service_title">eXpire</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="checkbox_text">Item Text</string>
+
+</resources>

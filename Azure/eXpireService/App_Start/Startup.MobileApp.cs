@@ -53,15 +53,25 @@ namespace eXpireService
     {
         protected override void Seed(eXpireContext context)
         {
-            List<FoodItem> todoItems = new List<FoodItem>
+            List<FoodItem> foodItems = new List<FoodItem>
             {
-                new FoodItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
-                new FoodItem { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
+                //new FoodItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
+                //new FoodItem { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
+                new FoodItem
+                {
+                    FoodItemID = 1,
+                    Category = FoodType.Fruit,
+                    BoughtDate = new DateTime(2017, 1, 1),
+                    ExpirationDate = new DateTime(2017, 1, 8),
+                    DaysToExpire = 7,
+                    Description = "Base Food",
+                    SpoonacularID = 1,
+                },
             };
 
-            foreach (FoodItem todoItem in todoItems)
+            foreach (FoodItem foodItem in foodItems)
             {
-                context.Set<FoodItem>().Add(todoItem);
+                context.Set<FoodItem>().Add(foodItem);
             }
 
             base.Seed(context);
